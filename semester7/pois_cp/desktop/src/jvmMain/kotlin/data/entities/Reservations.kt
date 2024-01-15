@@ -1,5 +1,7 @@
 package data.entities
 
+import core.DataRow
+import core.TableData
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
 import org.ktorm.schema.date

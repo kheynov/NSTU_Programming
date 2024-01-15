@@ -1,9 +1,12 @@
 package presentation.state_holders
 
 sealed interface Routes {
-    object Departments : Routes
-    object Positions : Routes
-    object Courses : Routes
-    object Employees : Routes
-    object CoursesCompletion : Routes
+    object Hotels : Routes
+    data class Reservations(
+        val hotelId: Int,
+    ) : Routes
+    data class Rooms(
+        val hotelId: Int,
+    ): Routes
+    object Users : Routes
 }

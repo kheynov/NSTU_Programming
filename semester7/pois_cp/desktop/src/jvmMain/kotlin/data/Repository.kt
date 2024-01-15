@@ -31,7 +31,7 @@ class Repository(
 
     inner class HotelsRepository {
         fun getAll(): List<Hotel> =
-            database.sequenceOf(Hotels).toList().sortedBy { it.city }
+            database.sequenceOf(Hotels).toList().sortedBy { it.id }
 
         fun create(hotel: Hotel): Boolean =
             database.sequenceOf(Hotels).add(hotel) == 1
@@ -84,14 +84,7 @@ class Repository(
                     )
                 }
             return rooms.filter { room ->
-                occupiedRooms.none {
-                    it.room.id == room.id && (
-                            (it.from in from..to) ||
-                                    (it.to in from..to) ||
-                                    (it.from <= from && from <= it.to) ||
-                                    (it.from <= to && to <= it.to)
-                            )
-                }
+                occupiedRooms.none { it.room.id == room.id && (from !in it.from..it.to || to !in it.from..it.to) }
             }
         }
     }
@@ -126,17 +119,19 @@ class Repository(
                         id = row[Reservations.id]!!,
                         room = Room {
                             this.id = row[Rooms.id]!!
-                            type = row[Rooms.type]!!
-                            price = row[Rooms.price]!!
-                            hotel = Hotel {
+                            this.type = row[Rooms.type]!!
+                            this.price = row[Rooms.price]!!
+                            this.number = row[Rooms.number]!!
+                            this.hotel = Hotel {
                                 this.id = row[Hotels.id]!!
-                                city = row[Hotels.city]!!
-                                address = row[Hotels.address]!!
+                                this.name = row[Hotels.name]!!
+                                this.city = row[Hotels.city]!!
+                                this.address = row[Hotels.address]!!
                             }
                         },
                         user = User {
-                            userId = row[Users.userId]!!
-                            name = row[Users.name]!!
+                            this.userId = row[Users.userId]!!
+                            this.name = row[Users.name]!!
                         },
                         from = row[Reservations.arrivalDate]!!,
                         to = row[Reservations.departureDate]!!,
@@ -167,9 +162,11 @@ class Repository(
                             this.id = row[Rooms.id]!!
                             type = row[Rooms.type]!!
                             price = row[Rooms.price]!!
+                            this.number = row[Rooms.number]!!
                             hotel = Hotel {
                                 this.id = row[Hotels.id]!!
                                 city = row[Hotels.city]!!
+                                this.name = row[Hotels.name]!!
                                 address = row[Hotels.address]!!
                             }
                         },
@@ -209,8 +206,10 @@ class Repository(
                             this.id = row[Rooms.id]!!
                             type = row[Rooms.type]!!
                             price = row[Rooms.price]!!
+                            this.number = row[Rooms.number]!!
                             hotel = Hotel {
                                 this.id = row[Hotels.id]!!
+                                this.name = row[Hotels.name]!!
                                 city = row[Hotels.city]!!
                                 address = row[Hotels.address]!!
                             }
@@ -239,9 +238,11 @@ class Repository(
                             this.id = row[Rooms.id]!!
                             type = row[Rooms.type]!!
                             price = row[Rooms.price]!!
+                            number = row[Rooms.number]!!
                             hotel = Hotel {
                                 this.id = row[Hotels.id]!!
                                 city = row[Hotels.city]!!
+                                this.name = row[Hotels.name]!!
                                 address = row[Hotels.address]!!
                             }
                         },

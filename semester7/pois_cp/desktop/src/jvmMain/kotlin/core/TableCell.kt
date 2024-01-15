@@ -2,6 +2,7 @@ package core
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
@@ -9,10 +10,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import core.CellType.ACCEPT
+import core.CellType.BOOK
 import core.CellType.CANCEL
 import core.CellType.DATA
 import core.CellType.DELETE
@@ -36,14 +38,15 @@ fun RowScope.TableCell(
     text: String = "",
     weight: Float = 1f,
     type: CellType = DATA,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .border(1.dp, Color.Black)
             .fillMaxHeight()
-            .weight(weight),
+            .weight(weight)
+            .clickable(onClick != null, onClick = onClick ?: {}),
         contentAlignment = Alignment.Center,
     ) {
         when (type) {
@@ -59,25 +62,17 @@ fun RowScope.TableCell(
                 fontSize = 18.sp,
             )
 
-            EDIT -> IconButton(onClick) {
-                Icon(imageVector = Icons.Default.Edit, "")
-            }
+            EDIT -> Icon(imageVector = Icons.Default.Edit, "")
 
-            INFO -> IconButton(onClick) {
-                Icon(imageVector = Icons.Default.Info, "")
-            }
+            BOOK -> Icon(imageVector = Icons.Default.CheckCircle, "")
 
-            DELETE -> IconButton(onClick) {
-                Icon(imageVector = Icons.Default.Delete, "")
-            }
+            DELETE -> Icon(imageVector = Icons.Default.Delete, "")
 
-            ACCEPT -> IconButton(onClick) {
-                Icon(imageVector = Icons.Default.Check, "")
-            }
+            ACCEPT -> Icon(imageVector = Icons.Default.Check, "")
 
-            CANCEL -> IconButton(onClick) {
-                Icon(imageVector = Icons.Default.Close, "")
-            }
+            CANCEL -> Icon(imageVector = Icons.Default.Close, "")
+
+            INFO -> Icon(imageVector = Icons.Default.Info, "")
         }
     }
 }

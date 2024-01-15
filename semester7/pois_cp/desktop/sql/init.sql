@@ -3,8 +3,8 @@ create schema if not exists public;
 
 create table users
 (
-    id            text primary key,
-    name          text not null
+    id   text primary key,
+    name text not null
 );
 
 
@@ -22,7 +22,7 @@ create table rooms
     id       text primary key default gen_random_uuid(),
     type     text not null,
     price    int  not null,
-    number   int  not null,
+    number   int  not null check ( number > 0 ),
     hotel_id int references hotels (id)
 );
 

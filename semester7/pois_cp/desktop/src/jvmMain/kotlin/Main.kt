@@ -8,14 +8,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import presentation.MainPageV7
+import presentation.MainPage
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
         Surface(modifier = Modifier.width(5000.dp)) {
-            MainPageV7()
+            MainPage()
         }
     }
 }
@@ -23,8 +23,8 @@ fun App() {
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        state = rememberWindowState(width = 1200.dp, height = 1000.dp),
-        title = "Расчётно-графическая работа вариант 7",
+        state = rememberWindowState(width = 1900.dp, height = 1080.dp),
+        title = "Система автоматизации резервирования номеров в гостинице",
     ) {
         App()
     }

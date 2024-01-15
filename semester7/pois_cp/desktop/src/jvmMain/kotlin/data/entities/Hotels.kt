@@ -1,5 +1,7 @@
 package data.entities
 
+import core.DataRow
+import core.TableData
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
 import org.ktorm.schema.int
@@ -14,6 +16,16 @@ interface Hotel : Entity<Hotel> {
     var address: String
     var rating: Int
 }
+
+val List<Hotel>.asTableData: TableData
+    get() = TableData(
+        header = listOf("ID", "Название", "Город", "Адрес", "Рейтинг"),
+        data = map {
+            DataRow(
+                listOf(it.id.toString(), it.name, it.city, it.address, it.rating.toString())
+            )
+        }
+    )
 
 object Hotels : Table<Hotel>("hotels") {
     var id = int("id").primaryKey().bindTo(Hotel::id)

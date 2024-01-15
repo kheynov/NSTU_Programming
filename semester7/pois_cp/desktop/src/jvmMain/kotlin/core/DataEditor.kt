@@ -26,17 +26,20 @@ fun DataInputDialog(
     header: List<String>,
     data: List<String> = List(header.size) { "" },
     onEdited: (List<String>) -> Unit = {},
+    editDenied: List<Int>,
     onCanceled: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val editedState = remember { mutableStateOf(data) }
+
     AlertDialog(
-        onDismissRequest = {  },
+        onDismissRequest = { },
         title = { Text("Редактирование") },
         text = {
             DataEditor(
                 header = header,
                 data = data,
+                editDenied = editDenied,
                 onEdited = { editedState.value = it },
                 modifier = modifier,
             )
@@ -66,6 +69,7 @@ fun DataInputDialog(
 fun DataEditor(
     header: List<String>,
     data: List<String> = List(header.size) { "" },
+    editDenied: List<Int> = listOf(0),
     onEdited: (List<String>) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -78,7 +82,7 @@ fun DataEditor(
                 modifier = Modifier.padding(vertical = 4.dp)
             ) {
                 Text(text = "$col:   ", color = Color.Black)
-                if (idx == 0) Text(text = "${editedState.value[0]} (не редактируется)", color = Color.Black)
+                if (editDenied.contains(idx)) Text(text = "${editedState.value[idx]} (не редактируется)", color = Color.Black)
                 else TextField(
                     value = editedState.value[idx],
                     onValueChange = { data ->
@@ -87,6 +91,7 @@ fun DataEditor(
                         editedState.value = tmp
                         onEdited(editedState.value)
                     },
+                    maxLines = 1,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
