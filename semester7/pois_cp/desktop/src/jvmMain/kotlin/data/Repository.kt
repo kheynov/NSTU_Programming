@@ -27,7 +27,7 @@ import java.time.LocalDate
 
 class Repository(
     private val database: Database,
-) {
+    ) {
 
     inner class HotelsRepository {
         fun getAll(): List<Hotel> =
